@@ -1,0 +1,42 @@
+.svg-container {
+  transition: ease-in;
+  display: flex;          /* Attiva Flexbox */
+  justify-content: center; /* Centra orizzontalmente */
+  align-items: center;     /* Centra verticalmente */
+  min-height: 100vh;      /* Altezza pari a tutta la pagina (Viewport Height) */
+  width: 100%;
+  background-color: white; /* Opzionale: un colore di sfondo */
+  transition: ease-in-out;
+  transition-duration: 100ms;
+}
+
+.signature-svg {
+  width: 100%;
+  max-width: 950px;
+  height: auto;
+  display: block;
+}
+
+.svg-container span {
+    animation: w70 1s ease backwards;
+    animation-duration: 5000ms;
+}
+.svg-container .w70 {
+    width: 70%;
+}
+
+@keyframes w70{
+  0%{
+    opacity: 1;
+    transform: rotateX(90deg);
+  }
+  50%{
+    opacity: 0.5;
+    transform: rotateX(0deg);
+  }
+  100%{
+    display: none;
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+}
