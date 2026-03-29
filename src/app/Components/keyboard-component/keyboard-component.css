@@ -1,0 +1,81 @@
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100vh;
+  gap: 12px;
+}
+
+.textarea {
+  width: 100%;
+  max-width: 520px;
+  height: 35px;
+  resize: none;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 1rem;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  outline: none;
+}
+
+.keyboard-wrapper {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  background: #f1f5f9;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.panel { display: flex; flex-direction: column; gap: 8px; }
+
+.grid-2x4 { display: grid; grid-template-columns: repeat(2, 65px); gap: 6px; }
+.grid-4x4 { display: grid; grid-template-columns: repeat(4, 65px); gap: 6px; }
+
+.grid-functions-scroll {
+  display: grid;
+  grid-template-columns: repeat(2, 65px);
+  gap: 6px;
+  max-height: 210px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.key-btn {
+  height: 48px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.white-key { background: #ffffff; color: #334155; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.gray-key { background: #f8fafc; color: #64748b; }
+.function-key { background: #eff6ff; color: #3b82f6; border-color: #dbeafe; }
+
+.key-btn:active { transform: scale(0.96); filter: brightness(0.9); }
+
+.panel-right { width: 140px; }
+.nav-arrows { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+.action-key { 
+  background: #cbd5e1; 
+  font-size: 0.85rem; 
+  text-transform: uppercase; 
+  letter-spacing: 0.5px;
+}
+.action-key.active-mode { background: #3b82f6; color: white; }
+
+.enter-key { background: #3b82f6; color: white; border: none; font-size: 1.4rem; }
+.delete-key { color: #ef4444; }
+
+.grid-functions-scroll::-webkit-scrollbar { width: 4px; }
+.grid-functions-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
