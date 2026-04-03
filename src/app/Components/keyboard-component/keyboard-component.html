@@ -7,13 +7,13 @@
       @if (!isAdvanced) {
         <div class="grid-2x4">
           @for (sym of leftBase; track sym.label) {
-            <button (click)="addSymbol(sym.label, sym.latex, sym.offset)" class="key-btn gray-key">{{ sym.label }}</button>
+            <button (click)="addSymbol(sym.label, sym.latex, sym.offset ?? 0)" class="key-btn gray-key">{{ sym.label }}</button>
           }
         </div>
       } @else {
         <div class="grid-functions-scroll">
           @for (sym of functions; track sym.label) {
-            <button (click)="addSymbol(sym.label, sym.latex, sym.offset)" class="key-btn function-key">{{ sym.label }}</button>
+            <button (click)="addSymbol(sym.label, sym.latex, sym.offset ?? 0)" class="key-btn function-key">{{ sym.label }}</button>
           }
         </div>
       }
