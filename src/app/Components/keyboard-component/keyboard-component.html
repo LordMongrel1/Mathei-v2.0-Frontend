@@ -1,19 +1,23 @@
 <div class="main-wrapper">
-  <input type="text" class="textarea" #mathInput [(ngModel)]="textValue" rows="5">
+  <input type="text" class="textarea" #mathInput
+         [value]="textValue"
+         (keydown)="handleKey($event)">
 
   <div class="keyboard-wrapper">
-  
+
     <div class="panel panel-left">
       @if (!isAdvanced) {
         <div class="grid-2x4">
           @for (sym of leftBase; track sym.label) {
-            <button (click)="addSymbol(sym.label, sym.latex, sym.offset ?? 0)" class="key-btn gray-key">{{ sym.label }}</button>
+            <button (click)="addSymbol(sym.label, sym.latex, sym.offset ?? 0)"
+                    class="key-btn gray-key">{{ sym.label }}</button>
           }
         </div>
       } @else {
         <div class="grid-functions-scroll">
           @for (sym of functions; track sym.label) {
-            <button (click)="addSymbol(sym.label, sym.latex, sym.offset ?? 0)" class="key-btn function-key">{{ sym.label }}</button>
+            <button (click)="addSymbol(sym.label, sym.latex, sym.offset ?? 0)"
+                    class="key-btn function-key">{{ sym.label }}</button>
           }
         </div>
       }
@@ -22,7 +26,7 @@
     <div class="panel panel-center">
       <div class="grid-4x4">
         @for (sym of centerPanel; track sym.label) {
-          <button (click)="addSymbol(sym.label, sym.latex, sym.offset)" 
+          <button (click)="addSymbol(sym.label, sym.latex, sym.offset)"
                   [class]="'key-btn ' + (sym.type === 'number' ? 'white-key' : 'gray-key')">
             {{ sym.label }}
           </button>
@@ -31,17 +35,15 @@
     </div>
 
     <div class="panel panel-right">
-      <button (click)="toggleAdvanced()" class="key-btn action-key" [class.active-mode]="isAdvanced">
+      <button (click)="toggleAdvanced()" class="key-btn action-key"
+              [class.active-mode]="isAdvanced">
         {{ isAdvanced ? 'Base' : 'Funzioni' }}
       </button>
-      
       <div class="nav-arrows">
         <button class="key-btn gray-key">←</button>
         <button class="key-btn gray-key">→</button>
       </div>
-
       <button class="key-btn gray-key delete-key" (click)="cancelText()">⌫</button>
-      
       <button class="key-btn enter-key">⏎</button>
     </div>
 
