@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home-component',
-  imports: [KeyboardComponent, CommonModule, FormsModule],
+  imports: [KeyboardComponent, CommonModule, FormsModule, PlotterComponent, SvgComponent],
   templateUrl: './home-component.html',
   styleUrl: './home-component.css',
 })

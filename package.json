@@ -22,13 +22,14 @@
   "dependencies": {
     "@angular/cdk": "^20.2.14",
     "@angular/common": "^20.1.0",
-    "@angular/compiler": "^20.1.0",
+    "@angular/compiler": "^22.0.0-next.6",
     "@angular/core": "^20.1.0",
     "@angular/forms": "^20.1.0",
     "@angular/material": "^20.2.14",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
     "jsxgraph": "^1.12.2",
+    "mathjs": "^15.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

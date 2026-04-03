@@ -1,5 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LatexSenderService } from '../../Services/latex-sender-service';
 
 interface MathSymbol {
   label: string;
@@ -245,5 +246,10 @@ export class KeyboardComponent {
     this.tokens.splice(tokIdx, 1);
     this.setCursor(Math.max(0, cursor - removedLen));
     console.log('LaTeX:', this.latex);
+  }
+
+  constructor(private latexSender: LatexSenderService) {}
+  sendToPlotter() {
+    this.latexSender.setData(this.latex);
   }
 }
