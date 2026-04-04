@@ -1,0 +1,83 @@
+<mat-sidenav-container class="container">
+  <mat-sidenav #sidenav mode="side" opened class="sidenav">
+
+    <div class="sidebar-header">
+      <span class="sidebar-title">Studio della funzione</span>
+      <div class="header-line"></div>
+    </div>
+
+    <mat-accordion [multi]="false" class="accordion">
+
+      <div class="section-group">
+        <mat-expansion-panel class="panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Dominio</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">Contenuto dominio</div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Intersezioni</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">Contenuto intersezioni</div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Segno</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">Contenuto segno</div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Asintoti</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">Contenuto asintoti</div>
+        </mat-expansion-panel>
+      </div>
+
+      <div class="section-divider">
+        <span class="section-label">Derivata prima</span>
+      </div>
+
+      <div class="section-group">
+        <mat-expansion-panel class="panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Derivata f'</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">Contenuto derivata prima</div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Segno di f'</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">Contenuto segno derivata prima</div>
+        </mat-expansion-panel>
+      </div>
+
+      <div class="section-divider">
+        <span class="section-label">Derivata seconda</span>
+      </div>
+
+      <div class="section-group">
+        <mat-expansion-panel class="panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Derivata f''</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">Contenuto derivata seconda</div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Segno di f''</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="panel-content">Contenuto segno derivata seconda</div>
+        </mat-expansion-panel>
+      </div>
+
+    </mat-accordion>
+  </mat-sidenav>
+</mat-sidenav-container>

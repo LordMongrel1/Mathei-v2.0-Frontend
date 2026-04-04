@@ -1,48 +1,74 @@
-import { AfterViewInit, Component, HostListener } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as JXG from 'jsxgraph';
-import { LatexSenderService } from '../../Services/latex-sender-service';
+import { create, all } from 'mathjs';
+import { KeyboardComponent } from '../keyboard-component/keyboard-component';
+import { SideBarComponent } from '../side-bar-component/side-bar-component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-plotter-component',
-  imports: [],
+  imports: [ KeyboardComponent, SideBarComponent, MatSidenavModule ],
   templateUrl: './plotter-component.html',
   styleUrl: './plotter-component.css',
 })
 export class PlotterComponent implements AfterViewInit {
-  plotFunction: string = 'Math.sqrt(Math.pow(x, 3) - Math.pow(x, 2)) / Math.log(x - 1)';
+  showSidebar: boolean = false;
+  showKeyboard: boolean = true;
+  board: JXG.Board | undefined;
+  graph: any;
+  math = create(all);
+  plotFunction: string = 'sqrt(pow(x, 3) - pow(x, 2)) / log(x - 1)';
+
+  handleData(data: string) {
+    this.updateFunction(data);
+  }
 
   ngAfterViewInit() {
-    const board = JXG.JSXGraph.initBoard('jxgbox', { 
-        boundingbox: [-16, 8, 16, -8], // [Sinistra, Alto, Destra, Basso]
-        axis: true,
-        showCopyright: false,
-
-        pan: {
-            enabled: true,   // Permette di trascinare il grafico con il mouse
-            needShift: false, // Se TRUE, devi premere Shift per muoverti. Metti FALSE per muoverti liberamente.
-            needTwoFingers: true // Per i dispositivi touch
-        },
-        zoom: {
-            wheel: true,      // Permette di zoomare con la rotella del mouse
-            needShift: false  // Se TRUE, devi premere Shift per zoomare
-        },
-        
-        showNavigation: true
-
+    this.board = JXG.JSXGraph.initBoard('jxgbox', {
+      boundingbox: [-16, 8, 16, -8],
+      axis: true,
+      showCopyright: false,
+      pan: { enabled: true, needShift: false, needTwoFingers: true },
+      zoom: { wheel: true, needShift: false },
+      showNavigation: true
     });
 
     const mathFunction = (x: number) => {
-      return this.plotFunction;
+      try {
+        return this.math.evaluate(this.plotFunction, { x });
+      } catch {
+        return NaN;
+      }
     };
 
-    board.create('functiongraph', [mathFunction], { 
-        strokeColor: 'blue', 
-        strokeWidth: 3,
-        jumpOut: { padding: 10 } 
+    this.board.create('functiongraph', [mathFunction], {
+      strokeColor: 'blue',
+      strokeWidth: 3,
+      jump: true
     });
   }
 
-  constructor(private latexSender: LatexSenderService) {
-    this.plotFunction = this.latexSender.getData();
+  updateFunction(newFunc: string) {
+    this.plotFunction = newFunc;
+    if (this.board) {
+      console.log('Updating function to:', newFunc);
+      this.board.removeObject(this.graph);
+      const mathFunction = (x: number) => {
+        try { 
+          return this.math.evaluate(this.plotFunction, { x }); 
+        } 
+        catch { return NaN; }
+      };
+      this.graph = this.board.create('functiongraph', [mathFunction], {
+        strokeColor: 'blue',
+        strokeWidth: 3,
+        jump: true
+      });
+    }
+  }
+
+  handleSentToBackend($event: boolean) {
+    this.showSidebar = $event;
+    this.showKeyboard = !$event;
   }
 }

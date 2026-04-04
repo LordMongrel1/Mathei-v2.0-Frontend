@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { create, all } from 'mathjs';
 import { LatexSenderService } from '../../Services/latex-sender-service';
 
 interface MathSymbol {
@@ -21,13 +22,17 @@ interface Token {
   styleUrl: './keyboard-component.css',
 })
 export class KeyboardComponent {
-
+  math = create(all);
+  @Output() sentToBackend = new EventEmitter<boolean>();
+  @Output() dataToSend = new EventEmitter<string>();
   tokens: Token[] = [];
   isAdvanced = false;
   isSubscriptMode = false;
   isAltscriptMode = false;
   private altscriptCloseToken: Token | null = null;
   private altscriptCloseTokenStack: Token[] = [];
+
+  constructor(private latexSender: LatexSenderService) {}
 
   @ViewChild('mathInput') mathInput!: ElementRef;
 
@@ -213,7 +218,7 @@ export class KeyboardComponent {
     }
 
     this.insertAt(insIdx, symbol, latex, offset);
-    console.log('LaTeX:', this.latex);
+    this.dataToSend.emit(this.latex);
   }
 
   cancelText() {
@@ -248,8 +253,20 @@ export class KeyboardComponent {
     console.log('LaTeX:', this.latex);
   }
 
-  constructor(private latexSender: LatexSenderService) {}
-  sendToPlotter() {
-    this.latexSender.setData(this.latex);
+  sendToBackend() {
+    const realLatex = this.getLatex(this.latex);
+    console.log('LaTeX da inviare al backend:', realLatex);
+    this.latexSender.setData(realLatex);
+    this.sentToBackend.emit(true);
+  }
+
+  getLatex(latex: string): string {
+    try {
+      const node = this.math.parse(latex);
+      return node.toTex();
+    } catch (error) {
+      console.error("Errore nella conversione LaTeX:", error);
+      return '';
+    }
   }
 }

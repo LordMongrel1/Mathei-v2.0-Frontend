@@ -1,1 +1,22 @@
-<div id="jxgbox" class="jxgbox"></div>
+<mat-sidenav-container class="app-container">
+  <mat-sidenav #sidenav mode="side" [opened]="showSidebar" position="end">
+    @if(showSidebar) {
+      <app-side-bar-component></app-side-bar-component>
+    }
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div id="jxgbox" class="jxgbox"></div>
+
+    @if(showKeyboard) {
+      <app-keyboard-component
+        (dataToSend)="handleData($event)"
+        (sentToBackend)="handleSentToBackend($event)">
+      </app-keyboard-component>
+    } @else {
+      <button class="keyboard-fab" (click)="showKeyboard = true">
+        ⌨️
+      </button>
+    }
+  </mat-sidenav-content>
+</mat-sidenav-container>

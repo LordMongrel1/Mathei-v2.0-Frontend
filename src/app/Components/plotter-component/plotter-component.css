@@ -1,5 +1,49 @@
 .jxgbox {
   background-color: white;
   width: 100%;
+  height: 100%;
+}
+
+.app-container {
   height: 100vh;
+}
+
+.keyboard-fab {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f48fb1;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(244, 143, 177, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 1000;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(244, 143, 177, 0.6);
+  }
+}
+
+::ng-deep .mat-sidenav-content {
+  position: relative !important;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Fix critico: sblocca l'overflow sul sidenav */
+::ng-deep .mat-sidenav-container .mat-sidenav {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+::ng-deep .mat-drawer-inner-container {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
