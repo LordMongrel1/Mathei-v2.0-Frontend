@@ -1,0 +1,9 @@
+app-plotter-component {
+  display: block;
+  animation: plotterIn 0.6s ease-out both;
+}
+
+@keyframes plotterIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

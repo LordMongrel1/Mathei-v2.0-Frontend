@@ -1,0 +1,378 @@
+/* ── Tokens ────────────────────────────────────────────────────────── */
+:host {
+  --rose:        #d04060;
+  --rose-light:  #e8718a;
+  --rose-pale:   #f5d0d8;
+  --rose-muted:  #b05070;
+  --ink:         #1a0a10;
+  --ink-soft:    #5c3040;
+  --surface:     #fdf6f8;
+  --surface-2:   #f7ecef;
+  --border:      rgba(208, 64, 96, 0.18);
+  --shadow:      rgba(176, 80, 112, 0.14);
+  --radius:      14px;
+  --font-mono:   'Courier New', Courier, monospace;
+}
+
+body {
+  overflow: auto !important;
+}
+/* ── Page ──────────────────────────────────────────────────────────── */
+.history-page {
+  min-height: 100vh;
+  background: var(--surface);
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto; /* ← aggiunto */
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Coordinate grid background */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.5;
+}
+
+/* ── Header ────────────────────────────────────────────────────────── */
+.history-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  background: rgba(253, 246, 248, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.back-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--rose-muted);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+.back-btn svg { width: 20px; height: 20px; }
+.back-btn:hover {
+  background: var(--rose);
+  color: white;
+  border-color: var(--rose);
+  transform: scale(1.08);
+}
+
+.header-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 1;
+}
+.title-accent {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--rose);
+  opacity: 0.6;
+}
+.header-title h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.header-count {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 12px;
+  white-space: nowrap;
+}
+
+/* ── Main ──────────────────────────────────────────────────────────── */
+.history-main {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+/* ── Skeleton ──────────────────────────────────────────────────────── */
+.skeleton-list { display: flex; flex-direction: column; gap: 12px; }
+.skeleton-item {
+  height: 72px;
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--rose-pale) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Empty / Error state ───────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 80px 24px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+.empty-icon {
+  font-size: 3rem;
+  color: var(--rose-light);
+  line-height: 1;
+}
+.empty-state p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.retry-btn {
+  margin-top: 8px;
+  padding: 10px 24px;
+  border-radius: 24px;
+  border: 1.5px solid var(--rose);
+  background: transparent;
+  color: var(--rose);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.retry-btn:hover { background: var(--rose); color: white; }
+
+/* ── Function list ─────────────────────────────────────────────────── */
+.function-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.function-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 10px var(--shadow);
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+
+  /* staggered entrance */
+  opacity: 0;
+  animation: slideIn 0.35s ease forwards;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.function-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--shadow);
+  border-color: var(--rose-light);
+}
+.function-card:active { transform: translateY(0); }
+
+.card-index {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-formula {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--rose);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-date {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+.card-arrow {
+  flex-shrink: 0;
+  color: var(--rose-pale);
+  transition: color 0.18s, transform 0.18s;
+}
+.card-arrow svg { width: 18px; height: 18px; display: block; }
+.function-card:hover .card-arrow {
+  color: var(--rose-light);
+  transform: translateX(3px);
+}
+
+/* ── Load more ─────────────────────────────────────────────────────── */
+.load-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+.load-more-btn {
+  padding: 12px 36px;
+  border-radius: 28px;
+  border: 1.5px solid var(--rose);
+  background: white;
+  color: var(--rose);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.load-more-btn:hover:not(:disabled) {
+  background: var(--rose);
+  color: white;
+  transform: scale(1.04);
+}
+.load-more-btn:disabled { opacity: 0.5; cursor: default; }
+
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--rose-pale);
+  border-top-color: var(--rose);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── End label ─────────────────────────────────────────────────────── */
+.end-label {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 0.78rem;
+  color: var(--rose-light);
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+/* ── Header actions ─────────────────────────────────────────────── */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: white;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+}
+.action-btn svg { width: 17px; height: 17px; display: block; }
+.action-btn:disabled { opacity: 0.32; cursor: not-allowed; pointer-events: none; }
+
+.action-danger {
+  color: var(--rose-muted);
+}
+.action-danger:hover:not(:disabled) {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #fca5a5;
+  transform: scale(1.08);
+}
+
+.action-neutral {
+  color: var(--ink-soft);
+}
+.action-neutral:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+  border-color: var(--rose-muted);
+  transform: scale(1.08);
+}
+
+/* ── Per-card delete button ─────────────────────────────────────── */
+.card-delete {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--rose-pale);
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border-color 0.18s, transform 0.15s;
+}
+.card-delete svg { width: 14px; height: 14px; display: block; }
+
+/* Reveal on card hover */
+.function-card:hover .card-delete {
+  color: var(--rose-light);
+}
+.card-delete:hover {
+  background: #fee2e2;
+  color: #b91c1c !important;
+  border-color: #fca5a5;
+  transform: scale(1.15);
+}
+
+/* ── Slide-out animation when a card is deleted ─────────────────── */
+.function-card.is-deleting {
+  pointer-events: none;
+  animation: card-out 0.28s ease forwards;
+}
+@keyframes card-out {
+  to { opacity: 0; transform: translateX(28px); }
+}

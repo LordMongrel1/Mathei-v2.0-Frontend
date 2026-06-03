@@ -1,0 +1,50 @@
+<ng-container *ngIf="dialogService.state$ | async as s">
+      <div class="cd-backdrop" *ngIf="s.visible"
+           (click)="dialogService.respond(false)"
+           (keydown.escape)="dialogService.respond(false)">
+
+        <div class="cd-card" role="dialog" aria-modal="true"
+             [attr.aria-labelledby]="'cd-title'"
+             (click)="$event.stopPropagation()">
+
+          <!-- Icon -->
+          <div class="cd-icon" [ngClass]="iconClass(s)">
+            <svg *ngIf="s.icon === 'trash'" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+              <path d="M10 11v6M14 11v6"/>
+              <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+            </svg>
+            <svg *ngIf="s.icon === 'warning'" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9"  x2="12"    y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <svg *ngIf="s.icon === 'logout'" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </div>
+
+          <!-- Text -->
+          <h2 id="cd-title" class="cd-title">{{ s.title }}</h2>
+          <p class="cd-message">{{ s.message }}</p>
+
+          <!-- Actions -->
+          <div class="cd-actions">
+            <button class="cd-btn cd-cancel"
+                    (click)="dialogService.respond(false)">Annulla</button>
+            <button class="cd-btn cd-confirm" [ngClass]="confirmClass(s)"
+                    (click)="dialogService.respond(true)">{{ s.confirmLabel }}</button>
+          </div>
+
+        </div>
+      </div>
+</ng-container>

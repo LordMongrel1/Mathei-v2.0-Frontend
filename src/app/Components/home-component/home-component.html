@@ -1,2 +1,9 @@
-<!-- <app-svg-component></app-svg-component> -->
-<app-plotter-component></app-plotter-component>
+<app-svg-component
+  *ngIf="showSplash || !showPlotter"
+  [class.leaving]="!showSplash"
+  (animationComplete)="onSplashComplete()">
+</app-svg-component>
+
+@defer (when showPlotter; prefetch on idle) {
+  <app-plotter-component></app-plotter-component>
+}

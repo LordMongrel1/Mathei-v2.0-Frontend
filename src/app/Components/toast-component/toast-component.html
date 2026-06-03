@@ -1,0 +1,12 @@
+@if (toast.visible) {
+  <div class="toast" role="alert" aria-live="assertive">
+    <div class="toast-header">
+      <span class="toast-title">{{ toast.title }}</span>
+      <button class="toast-close" (click)="toastService.dismiss()" aria-label="Chiudi">&#x2715;</button>
+    </div>
+    <p class="toast-msg">{{ toast.message }}</p>
+    <div class="toast-track">
+      <div class="toast-fill" [style.width.%]="toast.progress"></div>
+    </div>
+  </div>
+}

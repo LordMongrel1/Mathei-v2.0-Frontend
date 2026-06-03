@@ -8,53 +8,51 @@
 
     <mat-accordion [multi]="false" class="accordion">
 
-      <div class="section-group">
-        <mat-expansion-panel class="panel">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Dominio</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="panel-content">Contenuto dominio</div>
-        </mat-expansion-panel>
+      <mat-expansion-panel class="panel" (opened)="onPanelOpened('domain')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Dominio</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="panel-content" [innerHTML]="panelData['domain']"></div>
+      </mat-expansion-panel>
 
-        <mat-expansion-panel class="panel">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Intersezioni</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="panel-content">Contenuto intersezioni</div>
-        </mat-expansion-panel>
+      <mat-expansion-panel class="panel" (opened)="onPanelOpened('intersections')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Intersezioni</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="panel-content" [innerHTML]="panelData['intersections']"></div>
+      </mat-expansion-panel>
 
-        <mat-expansion-panel class="panel">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Segno</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="panel-content">Contenuto segno</div>
-        </mat-expansion-panel>
+      <mat-expansion-panel class="panel" (opened)="onPanelOpened('sign')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Segno</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="panel-content" [innerHTML]="panelData['sign']"></div>
+      </mat-expansion-panel>
 
-        <mat-expansion-panel class="panel">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Asintoti</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="panel-content">Contenuto asintoti</div>
-        </mat-expansion-panel>
-      </div>
+      <mat-expansion-panel class="panel" (opened)="onPanelOpened('asymptotes')">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Asintoti</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="panel-content" [innerHTML]="panelData['asymptotes']"></div>
+      </mat-expansion-panel>
 
       <div class="section-divider">
         <span class="section-label">Derivata prima</span>
       </div>
 
       <div class="section-group">
-        <mat-expansion-panel class="panel">
+        <mat-expansion-panel class="panel" (opened)="onPanelOpened('derivatives')">
           <mat-expansion-panel-header>
             <mat-panel-title>Derivata f'</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="panel-content">Contenuto derivata prima</div>
+          <div class="panel-content" [innerHTML]="panelData['d1']"></div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel class="panel">
+        <mat-expansion-panel class="panel" (opened)="onDerivativeSignOpened(1)">
           <mat-expansion-panel-header>
             <mat-panel-title>Segno di f'</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="panel-content">Contenuto segno derivata prima</div>
+          <div class="panel-content" [innerHTML]="panelData['sign_d1']"></div>
         </mat-expansion-panel>
       </div>
 
@@ -63,18 +61,18 @@
       </div>
 
       <div class="section-group">
-        <mat-expansion-panel class="panel">
+        <mat-expansion-panel class="panel" (opened)="onSecondDerivativeOpened()">
           <mat-expansion-panel-header>
             <mat-panel-title>Derivata f''</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="panel-content">Contenuto derivata seconda</div>
+          <div class="panel-content" [innerHTML]="panelData['d2']"></div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel class="panel">
+        <mat-expansion-panel class="panel" (opened)="onDerivativeSignOpened(2)">
           <mat-expansion-panel-header>
             <mat-panel-title>Segno di f''</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="panel-content">Contenuto segno derivata seconda</div>
+          <div class="panel-content" [innerHTML]="panelData['sign_d2']"></div>
         </mat-expansion-panel>
       </div>
 

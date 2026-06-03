@@ -1,7 +1,26 @@
 <div class="main-wrapper">
-  <input type="text" class="textarea" #mathInput
-         [value]="textValue"
-         (keydown)="handleKey($event)">
+  <div class="input-row">
+    <input type="text" class="textarea" #mathInput
+           [value]="textValue"
+           (keydown)="handleKey($event)">
+
+    <button class="img-btn" (click)="fileInput.click()" [class.confirmed]="showConfirm">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        @if (!showConfirm) {
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <circle cx="8.5" cy="8.5" r="1.5"/>
+          <polyline points="21 15 16 10 5 21"/>
+        } @else {
+          <polyline points="20 6 9 17 4 12" class="check-path"/>
+        }
+      </svg>
+    </button>
+
+    <input #fileInput type="file"
+           accept="image/png,image/jpeg,image/webp,image/gif"
+           style="display:none"
+           (change)="onFileSelected($event)">
+  </div>
 
   <div class="keyboard-wrapper">
 
@@ -40,8 +59,8 @@
         {{ isAdvanced ? 'Base' : 'Funzioni' }}
       </button>
       <div class="nav-arrows">
-        <button class="key-btn gray-key">←</button>
-        <button class="key-btn gray-key">→</button>
+        <button class="key-btn gray-key" (click)="moveCursor('left')">←</button>
+        <button class="key-btn gray-key" (click)="moveCursor('right')">→</button>
       </div>
       <button class="key-btn gray-key delete-key" (click)="cancelText()">⌫</button>
       <button class="key-btn enter-key" (click)="sendToBackend()">⏎</button>

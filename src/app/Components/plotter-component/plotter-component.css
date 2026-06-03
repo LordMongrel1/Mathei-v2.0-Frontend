@@ -1,13 +1,30 @@
-.jxgbox {
-  background-color: white;
-  width: 100%;
-  height: 100%;
+/* ── Variabili ─────────────────────────── */
+:host {
+  --r50:  #fff5f7;
+  --r100: #ffe0e7;
+  --r200: #ffb3c4;
+  --r300: #ff7a9a;
+  --r400: #e8607a;
+  --r500: #d04060;
+  --r600: #b02848;
+  --ink:  #1e1014;
+  --mid:  #7a5560;
+  --sub:  #a87888;
 }
 
+/* ── Layout ────────────────────────────── */
 .app-container {
   height: 100vh;
 }
 
+/* ── Board JSXGraph ────────────────────── */
+.jxgbox {
+  width: 100%;
+  height: 100%;
+  background-color: #fdf6f8;
+}
+
+/* ── FAB tastiera ──────────────────────── */
 .keyboard-fab {
   position: absolute;
   bottom: 24px;
@@ -16,20 +33,25 @@
   height: 52px;
   border-radius: 50%;
   border: none;
-  background-color: #f48fb1;
-  color: white;
+  background: linear-gradient(135deg, var(--r400) 0%, var(--r500) 100%);
+  color: #fff;
   font-size: 22px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(244, 143, 177, 0.4);
+  box-shadow:
+    0 1px 2px rgba(208, 64, 96, 0.3),
+    0 4px 14px rgba(232, 96, 122, 0.45);
   transition: transform 0.2s, box-shadow 0.2s;
   z-index: 1000;
-
-  &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(244, 143, 177, 0.6);
-  }
 }
 
+.keyboard-fab:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 2px 4px rgba(208, 64, 96, 0.3),
+    0 8px 20px rgba(232, 96, 122, 0.55);
+}
+
+/* ── Sidenav overrides ─────────────────── */
 ::ng-deep .mat-sidenav-content {
   position: relative !important;
   display: flex;
@@ -37,7 +59,6 @@
   height: 100vh;
 }
 
-/* Fix critico: sblocca l'overflow sul sidenav */
 ::ng-deep .mat-sidenav-container .mat-sidenav {
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -46,4 +67,47 @@
 ::ng-deep .mat-drawer-inner-container {
   overflow-y: auto !important;
   overflow-x: hidden !important;
+}
+
+/* ── Account button ─────────────────────────────── */
+.account-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.account-btn svg {
+  fill: #b05070;
+  transition: fill 0.2s;
+}
+
+.account-btn:hover {
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  transform: scale(1.08);
+}
+
+.account-btn:hover svg {
+  fill: #d04060;
+}
+
+.account-btn:active {
+  transform: scale(0.96);
 }
