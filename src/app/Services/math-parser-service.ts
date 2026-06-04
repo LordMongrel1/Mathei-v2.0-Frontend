@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-//import { create, all } from 'mathjs';
 import { evaluate, parse } from 'mathjs';
 
 @Injectable({ providedIn: 'root' })
 export class MathParserService {
-
-  //private math = create({all});
 
   evaluate(expression: string, scope?: object): number {
     try {
@@ -66,17 +63,27 @@ export class MathParserService {
       corrected = corrected
         .replace('atan', 'arctan')
         .replace('acos', 'arccos')
-        .replace('asin', 'arcsin');
-      const node = parse(corrected);
-      let text = node.toTex();
-      text = text
-        .replace(/\\mathrm{arcsin}/g, '\\arcsin')
-        .replace(/\\mathrm{arccos}/g, '\\arccos')
-        .replace(/\\mathrm{arctan}/g, '\\arctan');
-      return text;
+        .replace('asin', 'arcsin')
+        .replace(/.*=/, '');
+
+      if(!this.isLatex(corrected)) {
+        const node = parse(corrected);
+        let text = node.toTex();
+        text = text
+          .replace(/\\mathrm{arcsin}/g, '\\arcsin')
+          .replace(/\\mathrm{arccos}/g, '\\arccos')
+          .replace(/\\mathrm{arctan}/g, '\\arctan');
+        return text;
+      } else {
+        return corrected;
+      }
     } catch (error) {
       console.error('Errore nella conversione LaTeX:', error);
       return '';
     }
+  }
+
+  isLatex(str: string): boolean {
+    return /\\(frac|sqrt|[a-zA-Z]+)|[{}]/.test(str);
   }
 }

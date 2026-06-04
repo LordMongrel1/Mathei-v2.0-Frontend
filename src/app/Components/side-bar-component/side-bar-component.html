@@ -45,7 +45,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Derivata f'</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="panel-content" [innerHTML]="panelData['d1']"></div>
+          <div class="panel-content" [innerHTML]="panelData['d1'] || panelData['derivatives']"></div>
         </mat-expansion-panel>
 
         <mat-expansion-panel class="panel" (opened)="onDerivativeSignOpened(1)">

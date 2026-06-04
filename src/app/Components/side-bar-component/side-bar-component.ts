@@ -25,7 +25,6 @@ export class SideBarComponent {
 
   private handleWarning(data: any): void {
     if (data?.warning) {
-      console.warn("Warning from backend:", data.warning);
       const msg = typeof data.warning === 'string'
         ? data.warning
         : 'Attenzione: il risultato potrebbe essere impreciso.';
@@ -49,7 +48,7 @@ export class SideBarComponent {
       },
       error: (err) => {
         console.error(`Errore per ${section}:`, err);
-        this.toast.show('Errore di caricamento');
+        this.toast.show(err.error.detail || 'Si è verificato un errore sconosciuto.', 'Errore');
       }
     });
   }

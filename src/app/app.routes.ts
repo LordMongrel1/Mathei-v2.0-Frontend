@@ -19,5 +19,6 @@ export const routes: Routes = [
     loadComponent: () => import('./Components/history-component/history-component').then(m => m.HistoryComponent),
     canActivate: [authGuard] 
   },
-  { path: '', redirectTo: 'homepage', pathMatch: 'full' }
+  { path: '', redirectTo: 'homepage', pathMatch: 'full' },
+  { path: '**', redirectTo: 'homepage' }
 ];

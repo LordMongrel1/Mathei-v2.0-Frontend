@@ -81,17 +81,16 @@ export class KeyboardComponent implements OnInit {
 
   leftBase: MathSymbol[] = [
     { label: 'x',  latex: 'x',       type: 'variable' },
-    { label: 'y',  latex: 'y',       type: 'variable' },
     { label: '²',  latex: '^2',      type: 'function' },
     { label: 'ⁿ',  latex: '^()',     type: 'function', offset: 1 },
+    { label: '√',  latex: 'sqrt()', type: 'function', offset: 1 },
     { label: '(',  latex: '(',       type: 'operator' },
     { label: ')',  latex: ')',       type: 'operator' },
-    { label: '√',  latex: 'sqrt()', type: 'function', offset: 1 },
     { label: 'π',  latex: 'pi',     type: 'variable' },
+    { label: 'e',  latex: 'e',       type: 'variable' }
   ];
 
   functions: MathSymbol[] = [
-    { label: 'e',        latex: 'e',       type: 'variable' },
     { label: 'exp()',    latex: 'exp()',    type: 'function', offset: 1 },
     { label: 'ln(',      latex: 'log(',    type: 'function', offset: 0 },
     { label: 'logₐ(',   latex: 'log(',    type: 'function', offset: 0 },
@@ -298,6 +297,7 @@ export class KeyboardComponent implements OnInit {
         const tok: Token = { display: this.altscriptMap[symbol], latex: symbol };
         this.tokens.splice(closeIdx, 0, tok);
         this.setCursor(this.charPosOf(closeIdx + 1));
+        this.dataToSend.emit(this.latex);
         return;
       }
       const outerClose = this.altscriptCloseTokenStack.length > 0
@@ -343,6 +343,7 @@ export class KeyboardComponent implements OnInit {
     const removedLen = removed.display.length;
     this.tokens.splice(tokIdx, 1);
     this.setCursor(Math.max(0, cursor - removedLen));
+    this.dataToSend.emit(this.latex);
   }
 
   sendToBackend(flag: boolean = false) {
@@ -368,7 +369,6 @@ export class KeyboardComponent implements OnInit {
 
     postHistory$.subscribe({
       next: (res) => {
-        console.log('POST OK', res);
         if (!flag) this.sentToBackend.emit(true);
       },
       error: (err) => {

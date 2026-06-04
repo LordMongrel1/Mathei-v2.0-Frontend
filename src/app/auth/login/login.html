@@ -42,7 +42,6 @@
       <div class="login-field" [class.login-field--error]="form.get('password')?.invalid && form.get('password')?.touched">
         <div class="login-label-row">
           <label class="login-label" for="password">Password</label>
-          <a href="#" class="login-forgot">Password dimenticata?</a>
         </div>
         <div class="login-input-wrap">
           <svg class="login-input-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
@@ -62,13 +61,10 @@
         <span class="login-error" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
           Minimo 6 caratteri
         </span>
-        <!-- <span *ngIf="error" class="login-error">
-          {{ error }}
-        </span> -->
       </div>
 
       <label class="login-remember">
-        <input type="checkbox" class="login-checkbox-input" />
+        <input type="checkbox" class="login-checkbox-input" formControlName="rememberme"/>
         <span class="login-checkbox-box"></span>
         <span class="login-checkbox-label">Ricordami su questo dispositivo</span>
       </label>
