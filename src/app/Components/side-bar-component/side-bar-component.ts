@@ -41,7 +41,9 @@ export class SideBarComponent {
           this.panelData[section] = this.formatAsymptotes(data.msg);
         } else if (section === 'sign') {
           this.panelData[section] = this.formatSign(data.msg);
-        } else {
+        } else if (section === 'intersections') {
+          this.panelData[section] = this.formatIntersections(data.msg);
+        }else{
           this.panelData[section] = data.msg;
         }
         this.cdr.detectChanges();
@@ -69,7 +71,7 @@ export class SideBarComponent {
         switchMap((d1: string) => this.latexSenderService.sendToBackend('sign', d1))
       ).subscribe({
         next: (data: any) => {
-          this.handleWarning(data);          // ← NEW
+          this.handleWarning(data);
           this.panelData[signKey] = this.formatSign(data.msg);
           this.cdr.detectChanges();
         },
@@ -89,7 +91,7 @@ export class SideBarComponent {
         switchMap((d2: string) => this.latexSenderService.sendToBackend('sign', d2))
       ).subscribe({
         next: (data: any) => {
-          this.handleWarning(data);          // ← NEW
+          this.handleWarning(data);
           this.panelData[signKey] = this.formatSign(data.msg);
           this.cdr.detectChanges();
         },
@@ -124,7 +126,35 @@ export class SideBarComponent {
     });
   }
 
-  // ── Formatters (unchanged) ───────────────────────────────────────────────
+  // ── Formatters ───────────────────────────────────────────────
+
+  private formatIntersections(raw: any): string {
+    const str = typeof raw === 'string' ? raw : JSON.stringify(raw);
+    const re = /\(([^,]+),\s*([^)]+)\)/g;
+    const fmt = (v: string): string =>
+      this.cleanNum(v.trim()).replace(/\*?pi/g, 'π');
+
+    const xAxis: string[] = [];
+    const yAxis: string[] = [];
+
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(str)) !== null) {
+      const xC = fmt(m[1]);
+      const yC = fmt(m[2]);
+      if (yC === '0') xAxis.push(`(${xC}, 0)`);
+      if (xC === '0') yAxis.push(`(0, ${yC})`);
+    }
+
+    if (!xAxis.length && !yAxis.length) return `<span>${str}</span>`;
+
+    const fmt2 = (items: string[]) => items.length ? items.join(', ') : 'nessuna';
+
+    return `
+      <div>Asse x (y=0): ${fmt2(xAxis)}</div>
+      <div>Asse y (x=0): ${fmt2(yAxis)}</div>
+    `;
+  }
+
   private formatSign(raw: Array<[string, string, string]> | string): string {
     const fmt = (v: string): string => {
       if (v === '-oo' || v === '-inf') return '-∞';
@@ -150,8 +180,8 @@ export class SideBarComponent {
     }
 
     const rows = intervals.map(([start, end, signRaw]) => {
-      const s    = fmt(start);
-      const e    = fmt(end);
+      const s    = fmt(this.cleanNum(start));
+      const e    = fmt(this.cleanNum(end));
       const sign = signRaw === '+' ? '+' : signRaw === '-' ? '−' : signRaw;
       const cls  = signRaw === '+' ? 'pos' : signRaw === '-' ? 'neg' : 'zero';
       return `
@@ -185,11 +215,25 @@ export class SideBarComponent {
       else if (key === 'asintoti verticali') values.forEach(v => lines.push(`${label}: x = ${v}`));
       else if (key === 'asintoti obliqui') {
         values.forEach(([m, q]) => {
-          const sign = q >= 0 ? '+' : '-';
-          lines.push(`${label}: y = ${m}x ${sign} ${Math.abs(q)}`);
+          const mC = this.cleanNum(m);
+          const qC = parseFloat(this.cleanNum(q));
+          const sign = qC >= 0 ? '+' : '-';
+          lines.push(`${label}: y = ${mC}x ${sign} ${Math.abs(qC)}`);
         });
       }
     }
     return lines.join('<br>');
+  }
+
+  private cleanNum(raw: string | number): string {
+    if (typeof raw === 'string' && /[a-zA-Z]/.test(raw)) {
+      return raw;
+    }
+    const n = typeof raw === 'number' ? raw : parseFloat(raw as string);
+    if (isNaN(n)) return String(raw);
+    if (Math.abs(n - Math.round(n)) < 1e-9) {
+      return String(Math.round(n));
+    }
+    return parseFloat(n.toPrecision(3)).toString();
   }
 }
