@@ -19,6 +19,10 @@ export const routes: Routes = [
     loadComponent: () => import('./Components/history-component/history-component').then(m => m.HistoryComponent),
     canActivate: [authGuard] 
   },
+  {
+    path: 'termsAndPolicies',
+    loadComponent: () => import('./Components/terms-and-policies-component/terms-and-policies-component').then(m => m.TermsAndPoliciesComponent)
+  },
   { path: '', redirectTo: 'homepage', pathMatch: 'full' },
   { path: '**', redirectTo: 'homepage' }
 ];
