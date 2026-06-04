@@ -12,6 +12,9 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Dominio</mat-panel-title>
         </mat-expansion-panel-header>
+        @if (loadingData['domain']) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
         <div class="panel-content" [innerHTML]="panelData['domain']"></div>
       </mat-expansion-panel>
 
@@ -19,6 +22,9 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Intersezioni</mat-panel-title>
         </mat-expansion-panel-header>
+        @if (loadingData['intersections']) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
         <div class="panel-content" [innerHTML]="panelData['intersections']"></div>
       </mat-expansion-panel>
 
@@ -26,6 +32,9 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Segno</mat-panel-title>
         </mat-expansion-panel-header>
+        @if (loadingData['sign']) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
         <div class="panel-content" [innerHTML]="panelData['sign']"></div>
       </mat-expansion-panel>
 
@@ -33,6 +42,9 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Asintoti</mat-panel-title>
         </mat-expansion-panel-header>
+        @if (loadingData['asymptotes']) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
         <div class="panel-content" [innerHTML]="panelData['asymptotes']"></div>
       </mat-expansion-panel>
 
@@ -45,6 +57,9 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Derivata f'</mat-panel-title>
           </mat-expansion-panel-header>
+          @if (loadingData['d1'] || loadingData['derivatives']) {
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          }
           <div class="panel-content" [innerHTML]="panelData['d1'] || panelData['derivatives']"></div>
         </mat-expansion-panel>
 
@@ -52,6 +67,9 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Segno di f'</mat-panel-title>
           </mat-expansion-panel-header>
+          @if (loadingData['sign_d1']) {
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          }
           <div class="panel-content" [innerHTML]="panelData['sign_d1']"></div>
         </mat-expansion-panel>
       </div>
@@ -65,6 +83,9 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Derivata f''</mat-panel-title>
           </mat-expansion-panel-header>
+          @if (loadingData['d2']) {
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          }
           <div class="panel-content" [innerHTML]="panelData['d2']"></div>
         </mat-expansion-panel>
 
@@ -72,6 +93,9 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Segno di f''</mat-panel-title>
           </mat-expansion-panel-header>
+          @if (loadingData['sign_d2']) {
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          }
           <div class="panel-content" [innerHTML]="panelData['sign_d2']"></div>
         </mat-expansion-panel>
       </div>

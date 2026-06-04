@@ -6,16 +6,22 @@ import { LatexSenderService } from '../../Services/latex-sender-service';
 import { of } from 'rxjs';
 import { switchMap, tap, map } from 'rxjs/operators';
 import { ToastService } from '../../Services/toast-service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-side-bar-component',
   standalone: true,
-  imports: [MatSidenavModule, MatExpansionModule, MatDividerModule],
+  imports: [
+    MatSidenavModule, 
+    MatExpansionModule, 
+    MatDividerModule, 
+    MatProgressBarModule],
   templateUrl: './side-bar-component.html',
   styleUrl: './side-bar-component.css',
 })
 export class SideBarComponent {
   panelData: Record<string, string> = {};
+  loadingData: Record<string, boolean> = {};
 
   constructor(
     private latexSenderService: LatexSenderService,
@@ -34,6 +40,7 @@ export class SideBarComponent {
 
   onPanelOpened(section: string): void {
     if (this.panelData[section]) return;
+    this.loadingData[section] = true;
     this.latexSenderService.sendToBackend(section).subscribe({
       next: (data: any) => {
         this.handleWarning(data);
@@ -46,6 +53,7 @@ export class SideBarComponent {
         }else{
           this.panelData[section] = data.msg;
         }
+        this.loadingData[section] = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -58,6 +66,7 @@ export class SideBarComponent {
   onDerivativeSignOpened(order: 1 | 2): void {
     const signKey = order === 1 ? 'sign_d1' : 'sign_d2';
     if (this.panelData[signKey]) return;
+    this.loadingData[signKey] = true;
 
     const fetchD1$ = this.panelData['d1']
       ? of(this.panelData['d1'])
@@ -73,9 +82,13 @@ export class SideBarComponent {
         next: (data: any) => {
           this.handleWarning(data);
           this.panelData[signKey] = this.formatSign(data.msg);
+          this.loadingData[signKey] = false;
           this.cdr.detectChanges();
         },
-        error: (err) => console.error("Errore segno f':", err),
+        error: (err) => {
+          console.error("Errore segno f':", err);
+          this.loadingData[signKey] = false;     // ← aggiunto
+        },
       });
     } else {
       fetchD1$.pipe(
@@ -93,15 +106,20 @@ export class SideBarComponent {
         next: (data: any) => {
           this.handleWarning(data);
           this.panelData[signKey] = this.formatSign(data.msg);
+          this.loadingData[signKey] = false;
           this.cdr.detectChanges();
         },
-        error: (err) => console.error("Errore segno f'':", err),
+        error: (err) => {
+          console.error("Errore segno f'':", err);
+          this.loadingData[signKey] = false;
+        },
       });
     }
   }
 
   onSecondDerivativeOpened(): void {
     if (this.panelData['d2']) return;
+    this.loadingData['d2'] = true;
 
     const fetchD1$ = this.panelData['d1']
       ? of(this.panelData['d1'])
@@ -120,9 +138,13 @@ export class SideBarComponent {
     ).subscribe({
       next: (data: any) => {
         this.panelData['d2'] = data.msg;
+        this.loadingData['d2'] = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error("Errore derivata f'':", err),
+      error: (err) => {
+        console.error("Errore derivata f'':", err);
+        this.loadingData['d2'] = false;
+      },
     });
   }
 
